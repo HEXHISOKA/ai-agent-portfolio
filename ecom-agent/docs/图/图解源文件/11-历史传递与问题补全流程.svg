@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1270" viewBox="0 0 1200 1270" role="img" aria-labelledby="title desc">
+<title id="title">历史传递与问题补全流程</title>
+<desc id="desc">前端在追加本轮前构造历史。后端先澄清未明确范围的其它商品问题；范围明确后才进入规则补全和模型兜底，再交给查询路由。</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0 0 L10 4 L0 8 Z" fill="#475569" /></marker></defs>
+<rect width="1200" height="1270" rx="18" fill="#f8fafc" />
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#172033" text-anchor="middle">
+<text x="600" y="40" font-size="25" font-weight="700">历史先随请求传递，问题补全后再查询</text>
+<rect x="30" y="65" width="460" height="490" rx="16" fill="#eff6ff" stroke="#93c5fd" stroke-width="2" />
+<text x="260" y="100" font-size="21" font-weight="700">前端：Chat.vue</text>
+<rect x="60" y="125" width="400" height="80" rx="10" fill="#fff" stroke="#60a5fa" stroke-width="2" />
+<text x="260" y="157" font-size="19">本轮 question：它有几条评价</text>
+<text x="260" y="185" font-size="17">用户气泡仍显示这句原始输入</text>
+<rect x="60" y="255" width="400" height="130" rx="10" fill="#fff" stroke="#60a5fa" stroke-width="2" />
+<text x="260" y="286" font-size="19">追加本轮前调用 buildHistory()</text>
+<text x="260" y="316" font-size="18">旧轮次 → 用户、助手消息 → 去空</text>
+<text x="260" y="346" font-size="18">最近 6 条消息，每条最多 500 字符</text>
+<text x="260" y="373" font-size="17">history 不再放入本轮 question</text>
+<text x="260" y="442" font-size="18">例如旧消息提到“洗衣液 2L”</text>
+<text x="260" y="474" font-size="18">本轮问题与 history 分开传递</text>
+<text x="260" y="517" font-size="17" fill="#475569">没有旧消息时，history 为 []</text>
+<rect x="520" y="65" width="650" height="1170" rx="16" fill="#fff" stroke="#cbd5e1" stroke-width="2" />
+<text x="845" y="100" font-size="21" font-weight="700">后端：先理解问题，再进入原有流程</text>
+<rect x="600" y="265" width="480" height="100" rx="10" fill="#eff6ff" stroke="#60a5fa" stroke-width="2" />
+<text x="840" y="296" font-size="19">接口接收 question + history</text>
+<text x="840" y="326" font-size="18">历史模型 → 字典列表 → chat_service</text>
+<text x="840" y="352" font-size="17">history 提供上下文，身份仍由认证取得</text>
+<rect x="600" y="560" width="480" height="85" rx="10" fill="#ecfdf5" stroke="#34d399" stroke-width="2" />
+<text x="840" y="591" font-size="20">resolve_followup()：规则补全</text>
+<text x="840" y="622" font-size="18">用历史商品处理显式指代或隐含主语</text>
+<path d="M840 685 L970 735 L840 785 L710 735 Z" fill="#fff7ed" stroke="#fb923c" stroke-width="2" />
+<text x="840" y="741" font-size="19">产生 context_note？</text>
+<path d="M840 840 L975 890 L840 940 L705 890 Z" fill="#fff7ed" stroke="#fb923c" stroke-width="2" />
+<text x="840" y="883" font-size="18">有历史且符合</text>
+<text x="840" y="908" font-size="18">短追问条件？</text>
+<rect x="600" y="990" width="480" height="100" rx="10" fill="#f5f3ff" stroke="#a78bfa" stroke-width="2" />
+<text x="840" y="1020" font-size="19">rewrite_followup_with_llm()：模型改写</text>
+<text x="840" y="1049" font-size="18">得到有效改写 → 使用候选问题</text>
+<text x="840" y="1076" font-size="17">调用失败、空值、超长或原样输出 → 用原问题</text>
+<rect x="600" y="1140" width="480" height="70" rx="10" fill="#ecfdf5" stroke="#34d399" stroke-width="2" />
+<text x="840" y="1169" font-size="20">已有查询路由 → SQL 或语义检索</text>
+<text x="840" y="1196" font-size="17">接收补全后的问题，或未改写的原问题</text>
+<path d="M840 395 L1000 450 L840 505 L680 450 Z" fill="#fff7ed" stroke="#fb923c" stroke-width="2" /><text x="840" y="443" font-size="17">“其它商品”且</text><text x="840" y="469" font-size="17">范围、商品未明确？</text><rect x="50" y="610" width="420" height="120" rx="10" fill="#fff7ed" stroke="#fb923c" stroke-width="2" /><text x="260" y="644" font-size="18">返回澄清正文，请用户明确范围</text><text x="260" y="678" font-size="18">token → done(result = null)</text><text x="260" y="712" font-size="18">本轮不进入补全、路由或 SQL</text></g>
+<g fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)">
+<path d="M260 205 V249" />
+<path d="M460 315 H594" />
+<path d="M840 365 V389" />
+<path d="M840 645 V679" />
+<path d="M840 785 V834" />
+<path d="M970 735 H1130 V1175 H1086" />
+<path d="M705 890 H555 V1175 H594" />
+<path d="M840 940 V984" />
+<path d="M840 1090 V1134" />
+<path d="M680 450 H505 V670 H476" /><path d="M840 505 V554" /></g>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#334155" font-size="17" text-anchor="middle">
+<text x="528" y="300">发送</text>
+<text x="866" y="812">否</text>
+<text x="1055" y="715">是：用规则补全问题</text>
+<text x="636" y="869">否：沿用原问题</text>
+<text x="866" y="969">是</text>
+<text x="600" y="1260">例：“它有几条评价” → “洗衣液 2L有几条评价”；规则补全成功时不调用改写模型</text>
+<text x="604" y="431">是：先澄清</text><text x="866" y="535">否</text></g>
+</svg>

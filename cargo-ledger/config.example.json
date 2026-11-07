@@ -1,0 +1,95 @@
+{
+  "_comment": "货物台账管家：运营工作台。字段名用腾讯文档里的列标题，改名后这里同步改。复制本文件为 config.json 并填入你自己的凭据；所有密钥请用环境变量注入，config.json 永远不要提交到版本库。",
+  "tdoc": {
+    "_comment_backend": "云端部署只能用 oauth：MCP 通道的票据只在开发者机器上注入。",
+    "_comment_file_id": "填文档的短 ID（X 开头）即可。业务接口只认内部 ID（300000000$xxx），客户端会先用 drive metadata 自动换一次并缓存，不要手填内部 ID。填 D 开头的链接 ID 会报 10202。",
+    "backend": "oauth",
+    "product": {
+      "file_id": "",
+      "sheet_id": ""
+    },
+    "order": {
+      "file_id": "",
+      "sheet_id": ""
+    }
+  },
+  "oauth": {
+    "_comment": "腾讯文档开放平台（个人开发者）。client_secret 是机密，建议用环境变量 TDOC_CLIENT_SECRET 注入，不要留在文件里。redirect_uri 必须与开放平台后台登记的一字不差。",
+    "client_id": "",
+    "client_secret": "",
+    "redirect_uri": ""
+  },
+  "cloud": {
+    "_comment": "workbuddy_cloud_service 的 publicConfig。publishableKey 本身不带权限，平台侧仍校验 Origin。",
+    "resourceId": "",
+    "endpoint": "",
+    "publishableKey": ""
+  },
+  "llm": {
+    "_comment": "行情报价图逐行识别。模型只用平台目录里 supportsImages=true 的。",
+    "vision_model": "deepseek-v4.1-flash",
+    "timeout_sec": 150
+  },
+  "fields": {
+    "product": {
+      "name": "商品名称",
+      "quote": "行情价",
+      "quote_time": "行情更新时间",
+      "suggest_price": "推荐下单价",
+      "platform": "平台",
+      "config": "配置",
+      "has_gift": "是否有赠品",
+      "gift": "赠品",
+      "cost": "成本",
+      "profit": "毛利"
+    },
+    "order": {
+      "product": "关联商品",
+      "order_time": "下单时间",
+      "price": "下单价",
+      "address": "到货地址",
+      "buyer": "下单人",
+      "tracking_no": "快递单号",
+      "phone_tail": "手机尾号",
+      "carrier": "快递公司",
+      "status": "物流状态",
+      "last_trace": "最新轨迹",
+      "eta": "预计到达",
+      "last_query": "最近查询",
+      "review": "复核状态",
+      "quantity": "数量"
+    }
+  },
+  "kuaidi": {
+    "provider": "kdniao",
+    "_comment_provider": "kdniao = 真实通道。mock 只用于离线演示，且绝不会写回台账，避免假轨迹变成业务数据。",
+    "kdniao_ebusiness_id": "",
+    "kdniao_app_key": "",
+    "_comment_kdniao": "在快递鸟用户中心申请后填写。免费版需实名认证，付费版按次购买；顺丰/京东必须带收/寄件人手机后四位。"
+  },
+  "auth": {
+    "_comment": "台账口令。password_hash 用 python -m auth_gate set-password 生成，不要手写；为空时整站锁死（fail closed，宁可不让人进也不裸奔）。session_secret 建议用 openssl rand -hex 32 生成，不要提交到版本库。",
+    "password_hash": "",
+    "session_secret": "",
+    "session_days": 30
+  },
+  "watch": {
+    "_comment": "行情体检阈值。改完立刻生效，不用改代码。默认值是起点不是标准——用两周真实数据回来调。",
+    "min_profit": 50,
+    "drop_pct": 0.05,
+    "jump_pct": 0.08,
+    "stale_days": 3
+  },
+  "rules": {
+    "_comment_track_since": "物流跟踪起始日（含当天）。下单日期早于这一天的订单视为历史单：不再查轨迹（省快递鸟次数）、不计入在途、不进到货提醒。空字符串 = 不过滤。改这里立刻生效，不用改代码。",
+    "track_since": "",
+    "stale_hours": 36,
+    "query_cooldown_hours": 3,
+    "ignore_status": [
+      "已签收",
+      "退回"
+    ]
+  },
+  "admin_key": "",
+  "_comment_admin_key": "仅用于服务端排障接口 /api/probe?key=...；建议 openssl rand -hex 12 生成，用环境变量注入，不要在页面上暴露。"
+}

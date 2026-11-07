@@ -1,0 +1,37 @@
+# ===== 密钥与配置（绝不提交） =====
+config.json
+.env
+.env.local
+.env.*.local
+*.key
+*_secret*
+
+# ===== 数据与运行产物 =====
+data/
+db/
+logs/
+uploads/
+out/
+*.db
+*.sqlite
+*.sqlite3
+*.sql.gz
+backup_*
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# ===== Node =====
+node_modules/
+dist/
+.vite/
+
+# ===== IDE / 系统 =====
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
