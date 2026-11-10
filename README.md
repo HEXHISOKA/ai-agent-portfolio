@@ -23,7 +23,7 @@
 ai-agent-portfolio/
 ├── doc-agent/      # 单据抽取（后端 + Web 前端 + 评测工具）
 ├── cargo-ledger/   # 货物台账（后端 + Web 前端 + 运维工具）
-└── ecom-agent/     # 电商分析（FastAPI 后端 + Vue 3 前端 + 课程文档）
+└── ecom-agent/     # 电商运营 Agent（FastAPI 后端 + Vue 3 前端）
 ```
 
 ## 隐私说明

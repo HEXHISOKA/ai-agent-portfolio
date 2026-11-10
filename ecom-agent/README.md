@@ -1,8 +1,8 @@
-## 电商数据分析 Agent
+## 跨境电商运营 Agent（TikTok Shop）
 
-基于 **FastAPI + Vue 3 + MySQL** 的电商数据分析课程项目，围绕商品、订单和评价数据，实现自然语言查询、SQL 校验、语义检索与流式结果展示。
+为 TikTok 跨境电商卖家的真实业务场景设计：运营**直接用自然语言查经营数据**、做语义检索、执行改价等高危动作——但数据库和业务动作不直接交给 AI。基于 **FastAPI + Vue 3 + MySQL + LangGraph**。
 
-本仓库用于同步课堂代码，随课程进度更新。**课程笔记和详细操作步骤在[课程网站](https://ai.codenice.cn/courses/ecom-analysis-agent)阅读。**
+核心防线：SQL 只放行单条 SELECT 并过表白名单；LangGraph 工作流内置人工确认闸门（interrupt + 一次性票据）；每条结论展示查询与计算依据。
 
 ## 已包含能力
 
@@ -88,7 +88,7 @@ JWT_EXPIRE_HOURS=24
 JWT_ALGORITHM=HS256
 ```
 
-使用自然语言查询还需配置 `QUERY_DATABASE_URL`、`LLM_BASE_URL`、`LLM_API_KEY` 和 `LLM_MODEL`；语义检索还需配置 `EMBEDDING_BASE_URL`、`EMBEDDING_API_KEY` 和 `EMBEDDING_MODEL`，并按课程笔记建立本地向量索引。`QUERY_DATABASE_URL` 使用只读账号，本地索引不随 Git 提交。
+使用自然语言查询还需配置 `QUERY_DATABASE_URL`、`LLM_BASE_URL`、`LLM_API_KEY` 和 `LLM_MODEL`；语义检索还需配置 `EMBEDDING_BASE_URL`、`EMBEDDING_API_KEY` 和 `EMBEDDING_MODEL`，并建立本地向量索引。`QUERY_DATABASE_URL` 使用只读账号，本地索引不随 Git 提交。
 
 在项目根目录新开终端，启动后端：
 
@@ -185,7 +185,7 @@ VsCode配置，搜索 打开  settings.json，设置文件保存格式化：
 1. 用 `admin` / `admin` 登录，侧栏出现「用户管理」
 2. 查看用户列表，能看到 `admin`、`aaa`、`bbb`
 3. 修改个人信息、上传头像
-4. 修改密码后重新登录（演示完可改回，避免影响后续跟课）
+4. 修改密码后重新登录
 5. 可选：再注册一个新账号，确认角色为普通用户
 
 ## 演示数据日期同步
@@ -197,7 +197,7 @@ python -m scripts.sync_demo_dates
 python -m scripts.sync_demo_dates --apply
 ```
 
-脚本按相同天数平移商品、订单和评价的历史日期，保留时间间隔及业务字段；写入前自动保存原日期到 `backend/data/demo-date-backups/`。同一天重复运行不重复平移。同步后刷新首页即可，无需重建向量索引。仅用于课程演示库。
+脚本按相同天数平移商品、订单和评价的历史日期，保留时间间隔及业务字段；写入前自动保存原日期到 `backend/data/demo-date-backups/`。同一天重复运行不重复平移。同步后刷新首页即可，无需重建向量索引。仅用于本地演示库。
 
 ## 常见问题
 
@@ -213,4 +213,4 @@ python -m scripts.sync_demo_dates --apply
 ## 说明
 
 - `.env` 中的真实密码和 API Key 不提交到仓库，分享配置时使用占位内容。
-- 课程笔记在网站阅读，`docs/`、AI 协作说明、本地依赖、运行数据和发布包均不纳入版本管理。
+- AI 协作说明、本地依赖、运行数据和发布包均不纳入版本管理。
